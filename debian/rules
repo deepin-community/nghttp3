@@ -2,3 +2,9 @@
 
 %:
 	dh $@
+
+execute_after_dh_install:
+	rm -f debian/tmp/usr/lib/*/*.la
+
+	# Delete doc for now
+	rm -rf debian/tmp/usr/share/doc/nghttp3

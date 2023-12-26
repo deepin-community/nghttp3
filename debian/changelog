@@ -1,5 +1,82 @@
-template-repository (1.0-1) unstable; urgency=medium
+nghttp3 (0.8.0-2) sid; urgency=medium
 
-  * Initial release
+  * Uploading to sid.
 
- -- Tsic404 <liuheng@deepin.org>  Sat, 28 Jan 2023 13:46:49 +0800
+ -- Sakirnth Nagarasa <sakirnth@gmail.com>  Fri, 06 Jan 2023 20:23:57 +0100
+
+nghttp3 (0.8.0-1) experimental; urgency=medium
+
+  * Uploading to experimental.
+  * Merging upstream version 0.8.0.
+  * d/control: Updating Standards-Version.
+
+ -- Sakirnth Nagarasa <sakirnth@gmail.com>  Sun, 01 Jan 2023 20:05:12 +0100
+
+nghttp3 (0.7.0-2) sid; urgency=medium
+
+  * Uploading to sid.
+  * Source-only upload to allow testing migration.
+
+ -- Sakirnth Nagarasa <sakirnth@gmail.com>  Wed, 14 Sep 2022 19:00:04 +0200
+
+nghttp3 (0.7.0-1) experimental; urgency=medium
+
+  * Uploading to experimental.
+  * Merging upstream version 0.7.0.
+  * d/control:
+    - Updated binary package names because of soname bump.
+    - Updated depends because of soname bump.
+  * Removed d/libnghttp3-1.symbols.
+  * Renamed d/libnghttp3-1.install to d/libnghttp3-3.install.
+  * Added d/libnghttp3-3.symbols.
+
+ -- Sakirnth Nagarasa <sakirnth@gmail.com>  Sat, 27 Aug 2022 20:16:56 +0200
+
+nghttp3 (0.2.0-3) sid; urgency=medium
+
+  * Add d/libnghttp3-1.symbols file.
+
+ -- Sakirnth Nagarasa <sakirnth@gmail.com>  Tue, 21 Jun 2022 13:18:22 +0200
+
+nghttp3 (0.2.0-2) sid; urgency=medium
+
+  * Uploading to sid.
+  * d/control: Updating Standards-Version.
+
+ -- Sakirnth Nagarasa <sakirnth@gmail.com>  Mon, 16 May 2022 10:59:25 +0200
+
+nghttp3 (0.2.0-1) experimental; urgency=medium
+
+  * Uploading to experimental.
+  * Merging upstream version 0.2.0.
+  * d/control:
+    - Updating binary package name because of soname bump.
+    - Updating Depends because of soname bump.
+  * Renaming debian/libnghttp3-0 to debian/libnghttp3-1.
+  * d/copyright: Updating copyright for this version.
+
+ -- Sakirnth Nagarasa <sakirnth@gmail.com>  Mon, 28 Mar 2022 11:39:22 +0200
+
+nghttp3 (0.1.1-1) sid; urgency=medium
+
+  * Uploading to sid.
+  * Merging upstream version 0.1.1.
+  * d/copyright: Correcting copyright year for nghttp3 contributors.
+
+ -- Sakirnth Nagarasa <sakirnth@gmail.com>  Mon, 07 Feb 2022 20:45:09 +0100
+
+nghttp3 (0~20210817-1) sid; urgency=medium
+
+  * Uploading to sid.
+  * Merging upstream version 0~20210817.
+  * Using execute_after_dh_install instead of override_dh_install.
+  * Changing VCS path in debian/control.
+
+ -- Sakirnth Nagarasa <sakirnth@gmail.com>  Sat, 04 Sep 2021 09:15:06 +0200
+
+nghttp3 (0~20201019-1) sid; urgency=medium
+
+  * Initial release (Closes: #934184).
+    - using Draft-31 as upstream, commit 37c1c1b.
+
+ -- Sakirnth Nagarasa <sakirnth@gmail.com>  Sat, 28 Nov 2020 08:58:42 +0100
