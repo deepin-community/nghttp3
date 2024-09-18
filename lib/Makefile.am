@@ -23,7 +23,7 @@
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 SUBDIRS = includes
 
-EXTRA_DIST = CMakeLists.txt
+EXTRA_DIST = CMakeLists.txt sfparse/COPYING config.cmake.in
 
 AM_CFLAGS = $(WARNCFLAGS) $(DEBUGCFLAGS) $(EXTRACFLAG)
 AM_CPPFLAGS = -I$(srcdir)/includes -I$(builddir)/includes -DBUILDING_NGHTTP3
@@ -62,7 +62,8 @@ OBJECTS = \
 	nghttp3_balloc.c \
 	nghttp3_opl.c \
 	nghttp3_objalloc.c \
-	nghttp3_unreachable.c
+	nghttp3_unreachable.c \
+	sfparse/sfparse.c
 HFILES = \
 	nghttp3_rcbuf.h \
 	nghttp3_mem.h \
@@ -90,6 +91,7 @@ HFILES = \
 	nghttp3_opl.h \
 	nghttp3_objalloc.h \
 	nghttp3_unreachable.h \
+	sfparse/sfparse.h \
 	nghttp3_macro.h
 
 libnghttp3_la_SOURCES = $(HFILES) $(OBJECTS)

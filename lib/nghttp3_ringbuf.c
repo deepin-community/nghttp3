@@ -33,7 +33,8 @@
 
 #include "nghttp3_macro.h"
 
-#if defined(_MSC_VER) && (defined(_M_ARM) || defined(_M_ARM64))
+#if defined(_MSC_VER) && !defined(__clang__) &&                                \
+    (defined(_M_ARM) || defined(_M_ARM64))
 unsigned int __popcnt(unsigned int x) {
   unsigned int c = 0;
   for (; x; ++c) {
@@ -79,7 +80,7 @@ void nghttp3_ringbuf_free(nghttp3_ringbuf *rb) {
 
 void *nghttp3_ringbuf_push_front(nghttp3_ringbuf *rb) {
   rb->first = (rb->first - 1) & (rb->nmemb - 1);
-  rb->len = nghttp3_min(rb->nmemb, rb->len + 1);
+  rb->len = nghttp3_min_size(rb->nmemb, rb->len + 1);
 
   return (void *)&rb->buf[rb->first * rb->size];
 }

@@ -23,15 +23,15 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.20)
 # XXX using 0.1.90 instead of 0.2.0-DEV
-project(nghttp3 VERSION 0.8.0)
+project(nghttp3 VERSION 1.4.0)
 
 # See versioning rule:
 #  https://www.gnu.org/software/libtool/manual/html_node/Updating-version-info.html
-set(LT_CURRENT  3)
+set(LT_CURRENT  11)
 set(LT_REVISION 2)
-set(LT_AGE      0)
+set(LT_AGE      2)
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 include(Version)
@@ -52,6 +52,7 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
 endif()
 
 include(GNUInstallDirs)
+include(CMakeDependentOption)
 
 include(CMakeOptions.txt)
 
@@ -63,20 +64,12 @@ foreach(_build_type "Release" "MinSizeRel" "RelWithDebInfo")
   endforeach()
 endforeach()
 
-find_package(CUnit 2.1)
 enable_testing()
-set(HAVE_CUNIT      ${CUNIT_FOUND})
-if(HAVE_CUNIT)
-  add_custom_target(check COMMAND ${CMAKE_CTEST_COMMAND})
-endif()
+add_custom_target(check COMMAND ${CMAKE_CTEST_COMMAND})
 
 # Checks for header files.
 include(CheckIncludeFile)
 check_include_file("arpa/inet.h"   HAVE_ARPA_INET_H)
-check_include_file("stddef.h"      HAVE_STDDEF_H)
-check_include_file("stdint.h"      HAVE_STDINT_H)
-check_include_file("stdlib.h"      HAVE_STDLIB_H)
-check_include_file("string.h"      HAVE_STRING_H)
 check_include_file("unistd.h"      HAVE_UNISTD_H)
 check_include_file("sys/endian.h"  HAVE_SYS_ENDIAN_H)
 check_include_file("endian.h"      HAVE_ENDIAN_H)
@@ -103,7 +96,10 @@ endif()
 
 check_symbol_exists(bswap_64 "byteswap.h" HAVE_BSWAP_64)
 
-include(ExtractValidFlags)
+if(${CMAKE_C_BYTE_ORDER} STREQUAL "BIG_ENDIAN")
+  set(WORDS_BIGENDIAN 1)
+endif()
+
 set(WARNCFLAGS)
 set(WARNCXXFLAGS)
 if(CMAKE_C_COMPILER_ID MATCHES "MSVC")
@@ -113,76 +109,16 @@ if(CMAKE_C_COMPILER_ID MATCHES "MSVC")
   endif()
 else()
   if(ENABLE_WERROR)
-    extract_valid_c_flags(WARNCFLAGS    -Werror)
-    extract_valid_c_flags(WARNCXXFLAGS  -Werror)
+    set(WARNCFLAGS   "-Werror")
+    set(WARNCXXFLAGS "-Werror")
   endif()
 
-  # For C compiler
-  extract_valid_c_flags(WARNCFLAGS
-    -Wall
-    -Wextra
-    -Wmissing-prototypes
-    -Wstrict-prototypes
-    -Wmissing-declarations
-    -Wpointer-arith
-    -Wdeclaration-after-statement
-    -Wformat-security
-    -Wwrite-strings
-    -Wshadow
-    -Winline
-    -Wnested-externs
-    -Wfloat-equal
-    -Wundef
-    -Wendif-labels
-    -Wempty-body
-    -Wcast-align
-    -Wclobbered
-    -Wvla
-    -Wpragmas
-    -Wunreachable-code
-    -Waddress
-    -Wattributes
-    -Wdiv-by-zero
-    -Wshorten-64-to-32
-
-    -Wconversion
-    -Wextended-offsetof
-    -Wformat-nonliteral
-    -Wlanguage-extension-token
-    -Wmissing-field-initializers
-    -Wmissing-noreturn
-    -Wmissing-variable-declarations
-    # Not used because we cannot change public structs
-    # -Wpadded
-    -Wsign-conversion
-    # Not used because this basically disallows default case
-    # -Wswitch-enum
-    -Wunreachable-code-break
-    -Wunused-macros
-    -Wunused-parameter
-    -Wredundant-decls
-    # Only work with Clang for the moment
-    -Wheader-guard
-    -Wsometimes-uninitialized
-
-    # Only work with gcc7 for the moment
-    -Wduplicated-branches
-    # This is required because we pass format string as "const char*.
-    -Wno-format-nonliteral
-  )
-
-  extract_valid_cxx_flags(WARNCXXFLAGS
-    # For C++ compiler
-    -Wall
-    -Wformat-security
-    -Wsometimes-uninitialized
-    # Disable noexcept-type warning of g++-7.  This is not harmful as
-    # long as all source files are compiled with the same compiler.
-    -Wno-noexcept-type
-  )
+  include(cmake/PickyWarningsC.cmake)
+  include(cmake/PickyWarningsCXX.cmake)
 
   if(ENABLE_ASAN)
     include(CMakePushCheckState)
+    include(CheckCCompilerFlag)
     cmake_push_check_state()
     set(CMAKE_REQUIRED_LIBRARIES "-fsanitize=address")
     check_c_compiler_flag(-fsanitize=address C__fsanitize_address_VALID)
@@ -241,6 +177,10 @@ foreach(name
   configure_file("${name}.in" "${name}" @ONLY)
 endforeach()
 
+if(ENABLE_SHARED_LIB AND ENABLE_STATIC_LIB AND MSVC AND NOT STATIC_LIB_SUFFIX)
+  set(STATIC_LIB_SUFFIX "_static")
+endif()
+
 include_directories(
   "${CMAKE_CURRENT_BINARY_DIR}" # for config.h
 )
@@ -250,7 +190,9 @@ set(PKGDATADIR "${CMAKE_INSTALL_FULL_DATADIR}/${CMAKE_PROJECT_NAME}")
 install(FILES README.rst DESTINATION "${CMAKE_INSTALL_DOCDIR}")
 
 add_subdirectory(lib)
-add_subdirectory(tests)
+if(BUILD_TESTING)
+  add_subdirectory(tests)
+endif()
 add_subdirectory(examples)
 
 
@@ -273,7 +215,7 @@ message(STATUS "summary of build options:
       Shared:         ${ENABLE_SHARED_LIB}
       Static:         ${ENABLE_STATIC_LIB}
     Test:
-      CUnit:          ${HAVE_CUNIT} (LIBS='${CUNIT_LIBRARIES}')
+      Build Test:     ${BUILD_TESTING}
     Library only:     ${ENABLE_LIB_ONLY}
     Examples:         ${ENABLE_EXAMPLES}
 ")
