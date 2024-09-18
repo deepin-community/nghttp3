@@ -62,6 +62,9 @@
 /* NGHTTP3_CONN_FLAG_QPACK_DECODER_OPENED is set when a QPACK decoder
    stream has opened. */
 #define NGHTTP3_CONN_FLAG_QPACK_DECODER_OPENED 0x0008u
+/* NGHTTP3_CONN_FLAG_SHUTDOWN_COMMENCED is set when graceful shutdown
+   has started. */
+#define NGHTTP3_CONN_FLAG_SHUTDOWN_COMMENCED 0x0010u
 /* NGHTTP3_CONN_FLAG_GOAWAY_RECVED indicates that GOAWAY frame has
    received. */
 #define NGHTTP3_CONN_FLAG_GOAWAY_RECVED 0x0020u
@@ -73,7 +76,7 @@ typedef struct nghttp3_chunk {
   nghttp3_opl_entry oplent;
 } nghttp3_chunk;
 
-nghttp3_objalloc_def(chunk, nghttp3_chunk, oplent);
+nghttp3_objalloc_decl(chunk, nghttp3_chunk, oplent);
 
 struct nghttp3_conn {
   nghttp3_objalloc out_chunk_objalloc;
@@ -108,6 +111,10 @@ struct nghttp3_conn {
          initiated bidirectional stream ID the remote endpoint can
          issue.  This field is used on server side only. */
       uint64_t max_client_streams;
+      /* num_streams is the number of client initiated bidirectional
+         streams that are currently open.  This field is for server
+         use only. */
+      size_t num_streams;
     } bidi;
     nghttp3_settings settings;
   } remote;

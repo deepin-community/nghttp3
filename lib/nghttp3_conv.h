@@ -50,15 +50,11 @@
 #  include <sys/endian.h>
 #endif /* HAVE_SYS_ENDIAN_H */
 
-#include <nghttp3/nghttp3.h>
+#if defined(__APPLE__)
+#  include <libkern/OSByteOrder.h>
+#endif // __APPLE__
 
-#if defined(HAVE_BSWAP_64) ||                                                  \
-    (defined(HAVE_DECL_BSWAP_64) && HAVE_DECL_BSWAP_64 > 0)
-#  define nghttp3_bswap64 bswap_64
-#else /* !HAVE_BSWAP_64 */
-#  define nghttp3_bswap64(N)                                                   \
-    ((uint64_t)(ntohl((uint32_t)(N))) << 32 | ntohl((uint32_t)((N) >> 32)))
-#endif /* !HAVE_BSWAP_64 */
+#include <nghttp3/nghttp3.h>
 
 #if defined(HAVE_BE64TOH) ||                                                   \
     (defined(HAVE_DECL_BE64TOH) && HAVE_DECL_BE64TOH > 0)
@@ -69,6 +65,17 @@
 #    define nghttp3_ntohl64(N) (N)
 #    define nghttp3_htonl64(N) (N)
 #  else /* !WORDS_BIGENDIAN */
+#    if defined(HAVE_BSWAP_64) ||                                              \
+        (defined(HAVE_DECL_BSWAP_64) && HAVE_DECL_BSWAP_64 > 0)
+#      define nghttp3_bswap64 bswap_64
+#    elif defined(WIN32)
+#      define nghttp3_bswap64 _byteswap_uint64
+#    elif defined(__APPLE__)
+#      define nghttp3_bswap64 OSSwapInt64
+#    else /* !HAVE_BSWAP_64 && !WIN32 && !__APPLE__ */
+#      define nghttp3_bswap64(N)                                               \
+        ((uint64_t)(ntohl((uint32_t)(N))) << 32 | ntohl((uint32_t)((N) >> 32)))
+#    endif /* !HAVE_BSWAP_64 && !WIN32 && !__APPLE__ */
 #    define nghttp3_ntohl64(N) nghttp3_bswap64(N)
 #    define nghttp3_htonl64(N) nghttp3_bswap64(N)
 #  endif /* !WORDS_BIGENDIAN */
@@ -106,9 +113,9 @@ STIN uint16_t htons(uint16_t hostshort) {
 STIN uint32_t ntohl(uint32_t netlong) {
   uint32_t res;
   unsigned char *p = (unsigned char *)&netlong;
-  res = *p++ << 24;
-  res += *p++ << 16;
-  res += *p++ << 8;
+  res = (uint32_t)(*p++ << 24);
+  res += (uint32_t)(*p++ << 16);
+  res += (uint32_t)(*p++ << 8);
   res += *p;
   return res;
 }
@@ -116,7 +123,7 @@ STIN uint32_t ntohl(uint32_t netlong) {
 STIN uint16_t ntohs(uint16_t netshort) {
   uint16_t res;
   unsigned char *p = (unsigned char *)&netshort;
-  res = *p++ << 8;
+  res = (uint16_t)(*p++ << 8);
   res += *p;
   return res;
 }
@@ -185,23 +192,5 @@ uint64_t nghttp3_ord_stream_id(int64_t stream_id);
  * a value produced by nghttp3_pri_to_uint8.
  */
 #define NGHTTP3_PRI_INC_MASK (1 << 7)
-
-/*
- * nghttp3_pri_to_uint8 encodes |pri| into uint8_t variable.
- */
-uint8_t nghttp3_pri_to_uint8(const nghttp3_pri *pri);
-
-/*
- * nghttp3_pri_uint8_urgency extracts urgency from |PRI| which is
- * supposed to be constructed by nghttp3_pri_to_uint8.
- */
-#define nghttp3_pri_uint8_urgency(PRI)                                         \
-  ((uint32_t)((PRI) & ~NGHTTP3_PRI_INC_MASK))
-
-/*
- * nghttp3_pri_uint8_inc extracts inc from |PRI| which is supposed to
- * be constructed by nghttp3_pri_to_uint8.
- */
-#define nghttp3_pri_uint8_inc(PRI) (((PRI)&NGHTTP3_PRI_INC_MASK) != 0)
 
 #endif /* NGHTTP3_CONV_H */

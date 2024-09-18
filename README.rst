@@ -13,6 +13,18 @@ Documentation
 
 `Online documentation <https://nghttp2.org/nghttp3/>`_ is available.
 
+Build from git
+---------------
+
+.. code-block:: shell
+
+   $ git clone https://github.com/ngtcp2/nghttp3
+   $ cd nghttp3
+   $ git submodule update --init
+   $ autoreconf -i
+   $ ./configure
+   $ make -j$(nproc) check
+
 HTTP/3
 ------
 
@@ -26,6 +38,10 @@ The following extensions have been implemented:
   <https://datatracker.ietf.org/doc/html/rfc9218>`_
 - `Bootstrapping WebSockets with HTTP/3
   <https://datatracker.ietf.org/doc/html/rfc9220>`_
+
+It can also send and receive `SETTINGS_H3_DATAGRAM` from `HTTP
+Datagrams and the Capsule Protocol
+<https://datatracker.ietf.org/doc/html/rfc9297>`_.
 
 QPACK
 -----

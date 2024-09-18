@@ -1,3 +1,56 @@
+nghttp3 (1.4.0-1) sid; urgency=medium
+
+  * New upstream version 1.4.0.
+
+ -- Sakirnth Nagarasa <sakirnth@gmail.com>  Wed, 24 Jul 2024 03:45:14 +0200
+
+nghttp3 (1.3.0-2) sid; urgency=medium
+
+  * Uploading to sid (Closes: #1070079).
+
+ -- Sakirnth Nagarasa <sakirnth@gmail.com>  Fri, 28 Jun 2024 16:55:48 +0200
+
+nghttp3 (1.3.0-1) experimental; urgency=medium
+
+  * New upstream version 1.3.0.
+  * d/control: Changing Uploaders to folded field.
+  * d/copyright: Correcting years and license.
+
+ -- Sakirnth Nagarasa <sakirnth@gmail.com>  Fri, 10 May 2024 15:27:56 +0200
+
+nghttp3 (1.2.0-1) experimental; urgency=medium
+
+  * New upstream version 1.2.0.
+  * d/control:
+    - Change build-depends from pkg-config to pkgconf.
+    - Add Debian Curl Maintainers as Maintainer.
+  * d/libnghttp3-9.symbols: Added symbol for version 1.2.0.
+  * d/copyright: Updated for new version.
+
+ -- Sakirnth Nagarasa <sakirnth@gmail.com>  Wed, 08 May 2024 16:12:09 +0200
+
+nghttp3 (1.1.0-1) experimental; urgency=medium
+
+  * Uploading to experimental.
+  * Merging upstream version 1.1.0.
+  * d/libnghttp3-9.symbols: Added symbol for version 1.1.0.
+  * d/copyright: Updating authors and update year for d/*.
+
+ -- Sakirnth Nagarasa <sakirnth@gmail.com>  Mon, 08 Jan 2024 15:03:35 +0100
+
+nghttp3 (0.15.0-1) experimental; urgency=medium
+
+  * Uploading to experimental.
+  * Merging upstream version 0.15.0.
+  * d/control:
+    - Updated binary package names because of soname bump.
+    - Updated depends because of soname bump.
+  * Removed d/libnghttp3-3.symbols.
+  * Renamed d/libnghttp3-3.install to d/libnghttp3-9.install.
+  * Added d/libnghttp3-9.symbols.
+
+ -- Sakirnth Nagarasa <sakirnth@gmail.com>  Wed, 06 Sep 2023 14:50:41 +0200
+
 nghttp3 (0.8.0-2) sid; urgency=medium
 
   * Uploading to sid.

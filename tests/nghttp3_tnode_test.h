@@ -22,13 +22,19 @@
  * OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
  * WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
-#ifndef NGTCP2_TNODE_TEST_H
-#define NGTCP2_TNODE_TEST_H
+#ifndef NGHTTP3_TNODE_TEST_H
+#define NGHTTP3_TNODE_TEST_H
 
 #ifdef HAVE_CONFIG_H
 #  include <config.h>
 #endif /* HAVE_CONFIG_H */
 
-void test_nghttp3_tnode_schedule(void);
+#define MUNIT_ENABLE_ASSERT_ALIASES
 
-#endif /* NGTCP2_TNODE_TEST_H */
+#include "munit.h"
+
+extern const MunitSuite tnode_suite;
+
+munit_void_test_decl(test_nghttp3_tnode_schedule);
+
+#endif /* NGHTTP3_TNODE_TEST_H */

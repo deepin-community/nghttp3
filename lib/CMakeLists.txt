@@ -60,7 +60,32 @@ set(nghttp3_SOURCES
   nghttp3_opl.c
   nghttp3_objalloc.c
   nghttp3_unreachable.c
+  sfparse/sfparse.c
 )
+
+set(NGHTTP3_GENERATED_DIR "${CMAKE_CURRENT_BINARY_DIR}/generated")
+set(NGHTTP3_VERSION_CONFIG "${NGHTTP3_GENERATED_DIR}/${PROJECT_NAME}ConfigVersion.cmake")
+set(NGHTTP3_PROJECT_CONFIG "${NGHTTP3_GENERATED_DIR}/${PROJECT_NAME}Config.cmake")
+set(NGHTTP3_TARGETS_EXPORT_NAME "${PROJECT_NAME}Targets")
+set(NGHTTP3_CONFIG_INSTALL_DIR "lib/cmake/${PROJECT_NAME}")
+set(NGHTTP3_NAMESPACE "${PROJECT_NAME}::")
+set(NGHTTP3_VERSION ${PROJECT_VERSION})
+  
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file(
+  "${NGHTTP3_VERSION_CONFIG}" VERSION ${NGHTTP3_VERSION} COMPATIBILITY SameMajorVersion
+)
+configure_file("${CMAKE_CURRENT_SOURCE_DIR}/config.cmake.in" "${NGHTTP3_PROJECT_CONFIG}" @ONLY)
+
+# Install cmake config files
+install(
+  FILES "${NGHTTP3_PROJECT_CONFIG}" "${NGHTTP3_VERSION_CONFIG}"
+  DESTINATION "${NGHTTP3_CONFIG_INSTALL_DIR}")
+
+install(
+  EXPORT "${NGHTTP3_TARGETS_EXPORT_NAME}"
+  NAMESPACE "${NGHTTP3_NAMESPACE}"
+  DESTINATION "${NGHTTP3_CONFIG_INSTALL_DIR}")
 
 # Public shared library
 if(ENABLE_SHARED_LIB)
@@ -72,26 +97,26 @@ if(ENABLE_SHARED_LIB)
   )
 
   install(TARGETS nghttp3
+    EXPORT ${NGHTTP3_TARGETS_EXPORT_NAME} 
     ARCHIVE DESTINATION "${CMAKE_INSTALL_LIBDIR}"
     LIBRARY DESTINATION "${CMAKE_INSTALL_LIBDIR}"
     RUNTIME DESTINATION "${CMAKE_INSTALL_BINDIR}")
 endif()
 
-if(HAVE_CUNIT OR ENABLE_STATIC_LIB)
-  # Static library (for unittests because of symbol visibility)
+if(ENABLE_STATIC_LIB)
+  # Public static library
   add_library(nghttp3_static STATIC ${nghttp3_SOURCES})
   set_target_properties(nghttp3_static PROPERTIES
     COMPILE_FLAGS "${WARNCFLAGS}"
     VERSION ${LT_VERSION} SOVERSION ${LT_SOVERSION}
     ARCHIVE_OUTPUT_NAME nghttp3${STATIC_LIB_SUFFIX}
-  )
+    )
   target_compile_definitions(nghttp3_static PUBLIC "-DNGHTTP3_STATICLIB")
-  if(ENABLE_STATIC_LIB)
-    install(TARGETS nghttp3_static
-      DESTINATION "${CMAKE_INSTALL_LIBDIR}")
-  endif()
-endif()
 
+  install(TARGETS nghttp3_static
+    EXPORT ${NGHTTP3_TARGETS_EXPORT_NAME} 
+    DESTINATION "${CMAKE_INSTALL_LIBDIR}")
+endif()
 
 install(FILES "${CMAKE_CURRENT_BINARY_DIR}/libnghttp3.pc"
   DESTINATION "${CMAKE_INSTALL_LIBDIR}/pkgconfig")
