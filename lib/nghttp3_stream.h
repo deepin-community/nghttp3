@@ -27,7 +27,7 @@
 
 #ifdef HAVE_CONFIG_H
 #  include <config.h>
-#endif /* HAVE_CONFIG_H */
+#endif /* defined(HAVE_CONFIG_H) */
 
 #include <nghttp3/nghttp3.h>
 
@@ -69,6 +69,8 @@ typedef enum nghttp3_ctrl_stream_state {
   NGHTTP3_CTRL_STREAM_STATE_SETTINGS_VALUE,
   NGHTTP3_CTRL_STREAM_STATE_PRIORITY_UPDATE_PRI_ELEM_ID,
   NGHTTP3_CTRL_STREAM_STATE_PRIORITY_UPDATE,
+  NGHTTP3_CTRL_STREAM_STATE_ORIGIN_ORIGIN_LEN,
+  NGHTTP3_CTRL_STREAM_STATE_ORIGIN_ASCII_ORIGIN,
 } nghttp3_ctrl_stream_state;
 
 typedef enum nghttp3_req_stream_state {
@@ -112,10 +114,6 @@ typedef struct nghttp3_stream_read_state {
 /* NGHTTP3_STREAM_FLAG_READ_EOF indicates that remote endpoint sent
    fin. */
 #define NGHTTP3_STREAM_FLAG_READ_EOF 0x0020u
-/* NGHTTP3_STREAM_FLAG_CLOSED indicates that QUIC stream was closed.
-   nghttp3_stream object can still alive because it might be blocked
-   by QPACK decoder. */
-#define NGHTTP3_STREAM_FLAG_CLOSED 0x0040u
 /* NGHTTP3_STREAM_FLAG_SHUT_WR indicates that any further write
    operation to a stream is prohibited. */
 #define NGHTTP3_STREAM_FLAG_SHUT_WR 0x0100u
@@ -129,10 +127,6 @@ typedef struct nghttp3_stream_read_state {
 /* NGHTTP3_STREAM_FLAG_PRIORITY_UPDATE_RECVED indicates that server
    received PRIORITY_UPDATE frame for this stream. */
 #define NGHTTP3_STREAM_FLAG_PRIORITY_UPDATE_RECVED 0x0800u
-/* NGHTTP3_STREAM_FLAG_HTTP_ERROR indicates that
-   NGHTTP3_ERR_MALFORMED_HTTP_HEADER error is encountered while
-   processing incoming HTTP fields. */
-#define NGHTTP3_STREAM_FLAG_HTTP_ERROR 0x1000u
 
 typedef enum nghttp3_stream_http_state {
   NGHTTP3_HTTP_STATE_NONE,
@@ -223,9 +217,6 @@ struct nghttp3_stream {
       uint64_t unsent_bytes;
       /* outq_idx is an index into outq where next write is made. */
       size_t outq_idx;
-      /* outq_offset is write offset relative to the element at outq_idx
-         in outq. */
-      uint64_t outq_offset;
       /* ack_base is the number of bytes acknowledged by a remote
          endpoint where the first element in outq is positioned at. */
       uint64_t ack_base;
@@ -255,7 +246,7 @@ struct nghttp3_stream {
   };
 };
 
-nghttp3_objalloc_decl(stream, nghttp3_stream, oplent);
+nghttp3_objalloc_decl(stream, nghttp3_stream, oplent)
 
 typedef struct nghttp3_frame_entry {
   nghttp3_frame fr;
@@ -282,7 +273,8 @@ void nghttp3_varint_read_state_reset(nghttp3_varint_read_state *rvint);
 void nghttp3_stream_read_state_reset(nghttp3_stream_read_state *rstate);
 
 nghttp3_ssize nghttp3_read_varint(nghttp3_varint_read_state *rvint,
-                                  const uint8_t *src, size_t srclen, int fin);
+                                  const uint8_t *begin, const uint8_t *end,
+                                  int fin);
 
 int nghttp3_stream_frq_add(nghttp3_stream *stream,
                            const nghttp3_frame_entry *frent);
@@ -320,6 +312,9 @@ int nghttp3_stream_write_goaway(nghttp3_stream *stream,
 
 int nghttp3_stream_write_priority_update(nghttp3_stream *stream,
                                          nghttp3_frame_entry *frent);
+
+int nghttp3_stream_write_origin(nghttp3_stream *stream,
+                                nghttp3_frame_entry *frent);
 
 int nghttp3_stream_ensure_chunk(nghttp3_stream *stream, size_t need);
 
@@ -393,4 +388,4 @@ int nghttp3_client_stream_uni(int64_t stream_id);
  */
 int nghttp3_server_stream_uni(int64_t stream_id);
 
-#endif /* NGHTTP3_STREAM_H */
+#endif /* !defined(NGHTTP3_STREAM_H) */

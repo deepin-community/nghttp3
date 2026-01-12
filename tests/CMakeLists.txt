@@ -34,9 +34,12 @@ set(main_SOURCES
   main.c
   nghttp3_qpack_test.c
   nghttp3_conn_test.c
+  nghttp3_stream_test.c
   nghttp3_tnode_test.c
   nghttp3_http_test.c
   nghttp3_conv_test.c
+  nghttp3_settings_test.c
+  nghttp3_callbacks_test.c
   nghttp3_test_helper.c
   munit/munit.c
 )

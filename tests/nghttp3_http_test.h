@@ -27,7 +27,7 @@
 
 #ifdef HAVE_CONFIG_H
 #  include <config.h>
-#endif /* HAVE_CONFIG_H */
+#endif /* defined(HAVE_CONFIG_H) */
 
 #define MUNIT_ENABLE_ASSERT_ALIASES
 
@@ -35,7 +35,8 @@
 
 extern const MunitSuite http_suite;
 
-munit_void_test_decl(test_nghttp3_http_parse_priority);
-munit_void_test_decl(test_nghttp3_check_header_value);
+munit_void_test_decl(test_nghttp3_http_parse_priority)
+munit_void_test_decl(test_nghttp3_check_header_value)
+munit_void_test_decl(test_nghttp3_check_header_name)
 
-#endif /* NGHTTP3_HTTP_TEST_H */
+#endif /* !defined(NGHTTP3_HTTP_TEST_H) */

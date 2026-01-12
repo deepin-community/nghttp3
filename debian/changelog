@@ -1,14 +1,68 @@
-nghttp3 (1.4.0-1) sid; urgency=medium
+nghttp3 (1.12.0-1) unstable; urgency=medium
+
+  * New upstream version 1.12.0
+  * d/gbp.conf: Define upstream-branch.
+  * d/gbp.conf: Configure pristine-tar defaults.
+  * Update maintainer contact information.
+  * d/control: Update short and long descriptions.
+  * d/libnghttp3-9.symbols: New symbol nghttp3_conn_read_stream2@Base.
+
+ -- Sakirnth Nagarasa <sakirnth@debian.org>  Thu, 02 Oct 2025 19:06:54 +0200
+
+nghttp3 (1.11.0-1) unstable; urgency=medium
+
+  * Team upload
+  * Upload to unstable
+
+ -- Samuel Henrique <samueloph@debian.org>  Tue, 09 Sep 2025 22:47:50 +0100
+
+nghttp3 (1.11.0-1~exp1) experimental; urgency=medium
+
+  * Team upload
+  * New upstream version 1.11.0
+
+ -- Samuel Henrique <samueloph@debian.org>  Fri, 05 Sep 2025 19:04:09 +0100
+
+nghttp3 (1.8.0-1) unstable; urgency=medium
+
+  [ Matheus Polkorny ]
+  * d/watch: Add debian/watch file with signature verification.
+  * d/upstream/signing-key.asc: Upstream public key.
+
+  [ Sakirnth Nagarasa ]
+  * New upstream version 1.8.0.
+  * d/gbp.conf: Adding debian/unstable as default branch.
+  * d/copyright: Updating years and author for debian/*.
+  * d/control:
+    - Updating Standards-Version.
+    - Updating Vsc path.
+
+ -- Sakirnth Nagarasa <sakirnth@debian.org>  Sat, 01 Mar 2025 10:38:20 +0100
+
+nghttp3 (1.6.0-2) unstable; urgency=medium
+
+  * d/changelog: Remove 1.4.0-1~bpo12+1 entry from unstable changelog.
+
+ -- Sakirnth Nagarasa <sakirnth@debian.org>  Thu, 28 Nov 2024 08:28:57 +0100
+
+nghttp3 (1.6.0-1) unstable; urgency=medium
+
+  * New upstream version 1.6.0.
+  * d/changelog: Changing naming sid to unstable.
+
+ -- Sakirnth Nagarasa <sakirnth@debian.org>  Wed, 13 Nov 2024 15:47:55 +0100
+
+nghttp3 (1.4.0-1) unstable; urgency=medium
 
   * New upstream version 1.4.0.
 
- -- Sakirnth Nagarasa <sakirnth@gmail.com>  Wed, 24 Jul 2024 03:45:14 +0200
+ -- Sakirnth Nagarasa <sakirnth@debian.org>  Wed, 24 Jul 2024 03:45:14 +0200
 
-nghttp3 (1.3.0-2) sid; urgency=medium
+nghttp3 (1.3.0-2) unstable; urgency=medium
 
-  * Uploading to sid (Closes: #1070079).
+  * Uploading to unstable (Closes: #1070079).
 
- -- Sakirnth Nagarasa <sakirnth@gmail.com>  Fri, 28 Jun 2024 16:55:48 +0200
+ -- Sakirnth Nagarasa <sakirnth@debian.org>  Fri, 28 Jun 2024 16:55:48 +0200
 
 nghttp3 (1.3.0-1) experimental; urgency=medium
 
@@ -16,7 +70,7 @@ nghttp3 (1.3.0-1) experimental; urgency=medium
   * d/control: Changing Uploaders to folded field.
   * d/copyright: Correcting years and license.
 
- -- Sakirnth Nagarasa <sakirnth@gmail.com>  Fri, 10 May 2024 15:27:56 +0200
+ -- Sakirnth Nagarasa <sakirnth@debian.org>  Fri, 10 May 2024 15:27:56 +0200
 
 nghttp3 (1.2.0-1) experimental; urgency=medium
 
@@ -27,7 +81,7 @@ nghttp3 (1.2.0-1) experimental; urgency=medium
   * d/libnghttp3-9.symbols: Added symbol for version 1.2.0.
   * d/copyright: Updated for new version.
 
- -- Sakirnth Nagarasa <sakirnth@gmail.com>  Wed, 08 May 2024 16:12:09 +0200
+ -- Sakirnth Nagarasa <sakirnth@debian.org>  Wed, 08 May 2024 16:12:09 +0200
 
 nghttp3 (1.1.0-1) experimental; urgency=medium
 
@@ -36,7 +90,7 @@ nghttp3 (1.1.0-1) experimental; urgency=medium
   * d/libnghttp3-9.symbols: Added symbol for version 1.1.0.
   * d/copyright: Updating authors and update year for d/*.
 
- -- Sakirnth Nagarasa <sakirnth@gmail.com>  Mon, 08 Jan 2024 15:03:35 +0100
+ -- Sakirnth Nagarasa <sakirnth@debian.org>  Mon, 08 Jan 2024 15:03:35 +0100
 
 nghttp3 (0.15.0-1) experimental; urgency=medium
 
@@ -49,13 +103,13 @@ nghttp3 (0.15.0-1) experimental; urgency=medium
   * Renamed d/libnghttp3-3.install to d/libnghttp3-9.install.
   * Added d/libnghttp3-9.symbols.
 
- -- Sakirnth Nagarasa <sakirnth@gmail.com>  Wed, 06 Sep 2023 14:50:41 +0200
+ -- Sakirnth Nagarasa <sakirnth@debian.org>  Wed, 06 Sep 2023 14:50:41 +0200
 
-nghttp3 (0.8.0-2) sid; urgency=medium
+nghttp3 (0.8.0-2) unstable; urgency=medium
 
-  * Uploading to sid.
+  * Uploading to unstable.
 
- -- Sakirnth Nagarasa <sakirnth@gmail.com>  Fri, 06 Jan 2023 20:23:57 +0100
+ -- Sakirnth Nagarasa <sakirnth@debian.org>  Fri, 06 Jan 2023 20:23:57 +0100
 
 nghttp3 (0.8.0-1) experimental; urgency=medium
 
@@ -63,14 +117,14 @@ nghttp3 (0.8.0-1) experimental; urgency=medium
   * Merging upstream version 0.8.0.
   * d/control: Updating Standards-Version.
 
- -- Sakirnth Nagarasa <sakirnth@gmail.com>  Sun, 01 Jan 2023 20:05:12 +0100
+ -- Sakirnth Nagarasa <sakirnth@debian.org>  Sun, 01 Jan 2023 20:05:12 +0100
 
-nghttp3 (0.7.0-2) sid; urgency=medium
+nghttp3 (0.7.0-2) unstable; urgency=medium
 
-  * Uploading to sid.
+  * Uploading to unstable.
   * Source-only upload to allow testing migration.
 
- -- Sakirnth Nagarasa <sakirnth@gmail.com>  Wed, 14 Sep 2022 19:00:04 +0200
+ -- Sakirnth Nagarasa <sakirnth@debian.org>  Wed, 14 Sep 2022 19:00:04 +0200
 
 nghttp3 (0.7.0-1) experimental; urgency=medium
 
@@ -83,20 +137,20 @@ nghttp3 (0.7.0-1) experimental; urgency=medium
   * Renamed d/libnghttp3-1.install to d/libnghttp3-3.install.
   * Added d/libnghttp3-3.symbols.
 
- -- Sakirnth Nagarasa <sakirnth@gmail.com>  Sat, 27 Aug 2022 20:16:56 +0200
+ -- Sakirnth Nagarasa <sakirnth@debian.org>  Sat, 27 Aug 2022 20:16:56 +0200
 
-nghttp3 (0.2.0-3) sid; urgency=medium
+nghttp3 (0.2.0-3) unstable; urgency=medium
 
   * Add d/libnghttp3-1.symbols file.
 
- -- Sakirnth Nagarasa <sakirnth@gmail.com>  Tue, 21 Jun 2022 13:18:22 +0200
+ -- Sakirnth Nagarasa <sakirnth@debian.org>  Tue, 21 Jun 2022 13:18:22 +0200
 
-nghttp3 (0.2.0-2) sid; urgency=medium
+nghttp3 (0.2.0-2) unstable; urgency=medium
 
-  * Uploading to sid.
+  * Uploading to unstable.
   * d/control: Updating Standards-Version.
 
- -- Sakirnth Nagarasa <sakirnth@gmail.com>  Mon, 16 May 2022 10:59:25 +0200
+ -- Sakirnth Nagarasa <sakirnth@debian.org>  Mon, 16 May 2022 10:59:25 +0200
 
 nghttp3 (0.2.0-1) experimental; urgency=medium
 
@@ -108,28 +162,28 @@ nghttp3 (0.2.0-1) experimental; urgency=medium
   * Renaming debian/libnghttp3-0 to debian/libnghttp3-1.
   * d/copyright: Updating copyright for this version.
 
- -- Sakirnth Nagarasa <sakirnth@gmail.com>  Mon, 28 Mar 2022 11:39:22 +0200
+ -- Sakirnth Nagarasa <sakirnth@debian.org>  Mon, 28 Mar 2022 11:39:22 +0200
 
-nghttp3 (0.1.1-1) sid; urgency=medium
+nghttp3 (0.1.1-1) unstable; urgency=medium
 
-  * Uploading to sid.
+  * Uploading to unstable.
   * Merging upstream version 0.1.1.
   * d/copyright: Correcting copyright year for nghttp3 contributors.
 
- -- Sakirnth Nagarasa <sakirnth@gmail.com>  Mon, 07 Feb 2022 20:45:09 +0100
+ -- Sakirnth Nagarasa <sakirnth@debian.org>  Mon, 07 Feb 2022 20:45:09 +0100
 
-nghttp3 (0~20210817-1) sid; urgency=medium
+nghttp3 (0~20210817-1) unstable; urgency=medium
 
-  * Uploading to sid.
+  * Uploading to unstable.
   * Merging upstream version 0~20210817.
   * Using execute_after_dh_install instead of override_dh_install.
   * Changing VCS path in debian/control.
 
- -- Sakirnth Nagarasa <sakirnth@gmail.com>  Sat, 04 Sep 2021 09:15:06 +0200
+ -- Sakirnth Nagarasa <sakirnth@debian.org>  Sat, 04 Sep 2021 09:15:06 +0200
 
-nghttp3 (0~20201019-1) sid; urgency=medium
+nghttp3 (0~20201019-1) unstable; urgency=medium
 
   * Initial release (Closes: #934184).
     - using Draft-31 as upstream, commit 37c1c1b.
 
- -- Sakirnth Nagarasa <sakirnth@gmail.com>  Sat, 28 Nov 2020 08:58:42 +0100
+ -- Sakirnth Nagarasa <sakirnth@debian.org>  Sat, 28 Nov 2020 08:58:42 +0100

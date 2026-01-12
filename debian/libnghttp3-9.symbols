@@ -18,6 +18,7 @@ libnghttp3.so.9 libnghttp3-9 #MINVER#
  nghttp3_conn_get_stream_priority_versioned@Base 0.15.0
  nghttp3_conn_is_drained@Base 0.15.0
  nghttp3_conn_is_stream_writable@Base 0.15.0
+ nghttp3_conn_read_stream2@Base 1.12.0
  nghttp3_conn_read_stream@Base 0.15.0
  nghttp3_conn_resume_stream@Base 0.15.0
  nghttp3_conn_server_new_versioned@Base 0.15.0
@@ -55,6 +56,7 @@ libnghttp3.so.9 libnghttp3-9 #MINVER#
  nghttp3_qpack_encoder_del@Base 0.15.0
  nghttp3_qpack_encoder_encode@Base 0.15.0
  nghttp3_qpack_encoder_get_num_blocked_streams@Base 0.15.0
+ nghttp3_qpack_encoder_new2@Base 1.11.0
  nghttp3_qpack_encoder_new@Base 0.15.0
  nghttp3_qpack_encoder_read_decoder@Base 0.15.0
  nghttp3_qpack_encoder_set_max_blocked_streams@Base 0.15.0

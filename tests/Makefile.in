@@ -107,9 +107,11 @@ CONFIG_CLEAN_VPATH_FILES =
 am__objects_1 =
 am__dirstamp = $(am__leading_dot)dirstamp
 am__objects_2 = main.$(OBJEXT) nghttp3_qpack_test.$(OBJEXT) \
-	nghttp3_conn_test.$(OBJEXT) nghttp3_tnode_test.$(OBJEXT) \
-	nghttp3_http_test.$(OBJEXT) nghttp3_conv_test.$(OBJEXT) \
-	nghttp3_test_helper.$(OBJEXT) munit/munit.$(OBJEXT)
+	nghttp3_conn_test.$(OBJEXT) nghttp3_stream_test.$(OBJEXT) \
+	nghttp3_tnode_test.$(OBJEXT) nghttp3_http_test.$(OBJEXT) \
+	nghttp3_conv_test.$(OBJEXT) nghttp3_settings_test.$(OBJEXT) \
+	nghttp3_callbacks_test.$(OBJEXT) nghttp3_test_helper.$(OBJEXT) \
+	munit/munit.$(OBJEXT)
 am_main_OBJECTS = $(am__objects_1) $(am__objects_2)
 main_OBJECTS = $(am_main_OBJECTS)
 main_DEPENDENCIES = ${top_builddir}/lib/.libs/*.o \
@@ -137,10 +139,13 @@ DEFAULT_INCLUDES = -I.@am__isrc@ -I$(top_builddir)
 depcomp = $(SHELL) $(top_srcdir)/depcomp
 am__maybe_remake_depfiles = depfiles
 am__depfiles_remade = ./$(DEPDIR)/main.Po \
+	./$(DEPDIR)/nghttp3_callbacks_test.Po \
 	./$(DEPDIR)/nghttp3_conn_test.Po \
 	./$(DEPDIR)/nghttp3_conv_test.Po \
 	./$(DEPDIR)/nghttp3_http_test.Po \
 	./$(DEPDIR)/nghttp3_qpack_test.Po \
+	./$(DEPDIR)/nghttp3_settings_test.Po \
+	./$(DEPDIR)/nghttp3_stream_test.Po \
 	./$(DEPDIR)/nghttp3_test_helper.Po \
 	./$(DEPDIR)/nghttp3_tnode_test.Po munit/$(DEPDIR)/munit.Po
 am__mv = mv -f
@@ -428,6 +433,7 @@ ETAGS = @ETAGS@
 EXEEXT = @EXEEXT@
 EXTRACFLAG = @EXTRACFLAG@
 FGREP = @FGREP@
+FILECMD = @FILECMD@
 GREP = @GREP@
 HAVE_CXX17 = @HAVE_CXX17@
 INSTALL = @INSTALL@
@@ -564,18 +570,24 @@ OBJECTS = \
 	main.c \
 	nghttp3_qpack_test.c \
 	nghttp3_conn_test.c \
+	nghttp3_stream_test.c \
 	nghttp3_tnode_test.c \
 	nghttp3_http_test.c \
 	nghttp3_conv_test.c \
+	nghttp3_settings_test.c \
+	nghttp3_callbacks_test.c \
 	nghttp3_test_helper.c \
 	munit/munit.c
 
 HFILES = \
 	nghttp3_qpack_test.h \
 	nghttp3_conn_test.h \
+	nghttp3_stream_test.h \
 	nghttp3_tnode_test.h \
 	nghttp3_http_test.h \
 	nghttp3_conv_test.h \
+	nghttp3_settings_test.h \
+	nghttp3_callbacks_test.h \
 	nghttp3_test_helper.h \
 	munit/munit.h
 
@@ -659,10 +671,13 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/main.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nghttp3_callbacks_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nghttp3_conn_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nghttp3_conv_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nghttp3_http_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nghttp3_qpack_test.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nghttp3_settings_test.Po@am__quote@ # am--include-marker
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nghttp3_stream_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nghttp3_test_helper.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/nghttp3_tnode_test.Po@am__quote@ # am--include-marker
 @AMDEP_TRUE@@am__include@ @am__quote@munit/$(DEPDIR)/munit.Po@am__quote@ # am--include-marker
@@ -998,10 +1013,13 @@ clean-am: clean-checkPROGRAMS clean-generic clean-libtool \
 
 distclean: distclean-am
 		-rm -f ./$(DEPDIR)/main.Po
+	-rm -f ./$(DEPDIR)/nghttp3_callbacks_test.Po
 	-rm -f ./$(DEPDIR)/nghttp3_conn_test.Po
 	-rm -f ./$(DEPDIR)/nghttp3_conv_test.Po
 	-rm -f ./$(DEPDIR)/nghttp3_http_test.Po
 	-rm -f ./$(DEPDIR)/nghttp3_qpack_test.Po
+	-rm -f ./$(DEPDIR)/nghttp3_settings_test.Po
+	-rm -f ./$(DEPDIR)/nghttp3_stream_test.Po
 	-rm -f ./$(DEPDIR)/nghttp3_test_helper.Po
 	-rm -f ./$(DEPDIR)/nghttp3_tnode_test.Po
 	-rm -f munit/$(DEPDIR)/munit.Po
@@ -1051,10 +1069,13 @@ installcheck-am:
 
 maintainer-clean: maintainer-clean-am
 		-rm -f ./$(DEPDIR)/main.Po
+	-rm -f ./$(DEPDIR)/nghttp3_callbacks_test.Po
 	-rm -f ./$(DEPDIR)/nghttp3_conn_test.Po
 	-rm -f ./$(DEPDIR)/nghttp3_conv_test.Po
 	-rm -f ./$(DEPDIR)/nghttp3_http_test.Po
 	-rm -f ./$(DEPDIR)/nghttp3_qpack_test.Po
+	-rm -f ./$(DEPDIR)/nghttp3_settings_test.Po
+	-rm -f ./$(DEPDIR)/nghttp3_stream_test.Po
 	-rm -f ./$(DEPDIR)/nghttp3_test_helper.Po
 	-rm -f ./$(DEPDIR)/nghttp3_tnode_test.Po
 	-rm -f munit/$(DEPDIR)/munit.Po
