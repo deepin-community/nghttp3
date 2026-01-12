@@ -27,7 +27,7 @@
 
 #ifdef HAVE_CONFIG_H
 #  include <config.h>
-#endif /* HAVE_CONFIG_H */
+#endif /* defined(HAVE_CONFIG_H) */
 
 #include "nghttp3_buf.h"
 #include "nghttp3_frame.h"
@@ -35,9 +35,26 @@
 
 #define MAKE_NV(NAME, VALUE)                                                   \
   {                                                                            \
-    (uint8_t *)(NAME), (uint8_t *)(VALUE), sizeof((NAME)) - 1,                 \
-        sizeof((VALUE)) - 1, NGHTTP3_NV_FLAG_NONE                              \
+    .name = (uint8_t *)(NAME),                                                 \
+    .value = (uint8_t *)(VALUE),                                               \
+    .namelen = sizeof((NAME)) - 1,                                             \
+    .valuelen = sizeof((VALUE)) - 1,                                           \
   }
+
+/*
+ * strsize macro returns the length of string literal |S|.
+ */
+#define strsize(S) (sizeof(S) - 1)
+
+/*
+ * NGHTTP3_TEST_MAP_SEED is the seed passed to nghttp3_map_init.
+ */
+#define NGHTTP3_TEST_MAP_SEED 0
+
+typedef struct nghttp3_frame_hd {
+  int64_t type;
+  int64_t length;
+} nghttp3_frame_hd;
 
 /*
  * nghttp3_write_frame writes |fr| to |dest|.  This function
@@ -69,4 +86,42 @@ void nghttp3_write_frame_qpack_dyn(nghttp3_buf *dest, nghttp3_buf *ebuf,
  */
 void nghttp3_write_frame_data(nghttp3_buf *dest, size_t len);
 
-#endif /* NGHTTP3_TEST_HELPER */
+/*
+ * nghttp3_decode_frame_hd decodes frame header out of |vec| of length
+ * |veccnt|.  It returns the number of bytes read if it succeeds, or
+ * negative error code.
+ */
+nghttp3_ssize nghttp3_decode_frame_hd(nghttp3_frame_hd *hd,
+                                      const nghttp3_vec *vec, size_t veccnt);
+
+/*
+ * nghttp3_decode_priority_update_frame decodes PRIORITY_UPDATE frame
+ * out of |vec| of length |veccnt|.  It returns the number of bytes
+ * read if it succeeds, or a negative error code.
+ */
+nghttp3_ssize
+nghttp3_decode_priority_update_frame(nghttp3_frame_priority_update *fr,
+                                     const nghttp3_vec *vec, size_t veccnt);
+
+/*
+ * nghttp3_decode_settings_frame decodes SETTINGS frame out of |vec|
+ * of length |veccnt|.  |fr| should have enough space to store
+ * settings.  This function does not produce more than 16 settings.
+ * If the given buffer contains more than 16 settings, this function
+ * returns NGHTTP3_ERR_INVALID_ARGUMENT.  It returns the number of
+ * bytes read if it succeeds, or a negative error code.
+ */
+nghttp3_ssize nghttp3_decode_settings_frame(nghttp3_frame_settings *fr,
+                                            const nghttp3_vec *vec,
+                                            size_t veccnt);
+
+/*
+ * nghttp3_decode_origin_frame decodes ORIGIN frame out of |vec| of
+ * length |veccnt|.  It returns the number of bytes read if it
+ * succeeds, or a negative error code.
+ */
+nghttp3_ssize nghttp3_decode_origin_frame(nghttp3_frame_origin *fr,
+                                          const nghttp3_vec *vec,
+                                          size_t veccnt);
+
+#endif /* !defined(NGHTTP3_TEST_HELPER) */
