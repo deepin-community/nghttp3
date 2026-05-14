@@ -27,7 +27,7 @@
 
 #ifdef HAVE_CONFIG_H
 #  include <config.h>
-#endif /* HAVE_CONFIG_H */
+#endif // defined(HAVE_CONFIG_H)
 
 #include <nghttp3/nghttp3.h>
 
@@ -81,7 +81,7 @@ private:
   std::priority_queue<std::shared_ptr<Request>,
                       std::vector<std::shared_ptr<Request>>,
                       std::greater<std::shared_ptr<Request>>>
-      blocked_reqs_;
+    blocked_reqs_;
   size_t max_dtable_size_;
   size_t max_blocked_;
 };
@@ -90,4 +90,4 @@ int decode(const std::string_view &outfile, const std::string_view &infile);
 
 } // namespace nghttp3
 
-#endif // QPACK_ENCODE_H
+#endif // !defined(QPACK_DECODE_H)

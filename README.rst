@@ -50,6 +50,21 @@ This library implements `RFC 9204
 <https://datatracker.ietf.org/doc/html/rfc9204>`_ QPACK.  It supports
 dynamic table.
 
+Optimizations
+-------------
+
+This library optionally uses AVX2, if available, to optimize its
+performance.  To compile with AVX2, add ``-mavx2`` to CFLAGS.  Note
+that by default, CFLAGS is set to ``-g -O2``.  When specifying CFLAGS,
+include them as well (e.g., ``-g -O2 -mavx2``).
+
+Examples
+--------
+
+- client: https://github.com/ngtcp2/ngtcp2/blob/main/examples/client.cc
+- server: https://github.com/ngtcp2/ngtcp2/blob/main/examples/server.cc
+- curl: https://github.com/curl/curl/blob/master/lib/vquic/curl_ngtcp2.c
+
 License
 -------
 

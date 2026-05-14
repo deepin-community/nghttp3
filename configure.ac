@@ -23,7 +23,7 @@
 # OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
 # WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 AC_PREREQ(2.61)
-AC_INIT([nghttp3], [1.4.0], [t-tujikawa@users.sourceforge.net])
+AC_INIT([nghttp3], [1.8.0], [t-tujikawa@users.sourceforge.net])
 AC_CONFIG_AUX_DIR([.])
 AC_CONFIG_MACRO_DIR([m4])
 AC_CONFIG_HEADERS([config.h])
@@ -43,7 +43,7 @@ m4_ifdef([AM_SILENT_RULES], [AM_SILENT_RULES([yes])])
 # See versioning rule:
 #  https://www.gnu.org/software/libtool/manual/html_node/Updating-version-info.html
 AC_SUBST(LT_CURRENT, 11)
-AC_SUBST(LT_REVISION, 2)
+AC_SUBST(LT_REVISION, 6)
 AC_SUBST(LT_AGE, 2)
 
 # from nghttp2
@@ -216,6 +216,7 @@ if test "x$werror" != "xno"; then
     # Only work with Clang for the moment
     AX_CHECK_COMPILE_FLAG([-Wheader-guard], [CFLAGS="$CFLAGS -Wheader-guard"])
     AX_CHECK_COMPILE_FLAG([-Wsometimes-uninitialized], [CFLAGS="$CFLAGS -Wsometimes-uninitialized"])
+    AX_CHECK_COMPILE_FLAG([-Wextra-semi], [CFLAGS="$CFLAGS -Wextra-semi"])
 
     # Only work with gcc7 for the moment
     AX_CHECK_COMPILE_FLAG([-Wduplicated-branches], [CFLAGS="$CFLAGS -Wduplicated-branches"])
@@ -230,6 +231,7 @@ if test "x$werror" != "xno"; then
     #AX_CHECK_COMPILE_FLAG([-Werror], [CXXFLAGS="$CXXFLAGS -Werror"])
     AX_CHECK_COMPILE_FLAG([-Wformat-security], [CXXFLAGS="$CXXFLAGS -Wformat-security"])
     AX_CHECK_COMPILE_FLAG([-Wsometimes-uninitialized], [CXXFLAGS="$CXXFLAGS -Wsometimes-uninitialized"])
+    AX_CHECK_COMPILE_FLAG([-Wextra-semi], [CXXFLAGS="$CXXFLAGS -Wextra-semi"])
     # Disable noexcept-type warning of g++-7.  This is not harmful as
     # long as all source files are compiled with the same compiler.
     AX_CHECK_COMPILE_FLAG([-Wno-noexcept-type], [CXXFLAGS="$CXXFLAGS -Wno-noexcept-type"])
