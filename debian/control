@@ -8,10 +8,10 @@ Build-Depends:
  debhelper-compat (= 13),
  pkgconf,
 Rules-Requires-Root: no
-Standards-Version: 4.6.2
+Standards-Version: 4.7.2
 Homepage: https://github.com/ngtcp2/nghttp3
-Vcs-Browser: https://salsa.debian.org/saki/nghttp3
-Vcs-Git: https://salsa.debian.org/saki/nghttp3.git
+Vcs-Browser: https://salsa.debian.org/debian/nghttp3
+Vcs-Git: https://salsa.debian.org/debian/nghttp3.git
 
 Package: libnghttp3-9
 Section: libs

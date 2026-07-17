@@ -272,6 +272,7 @@ ETAGS = @ETAGS@
 EXEEXT = @EXEEXT@
 EXTRACFLAG = @EXTRACFLAG@
 FGREP = @FGREP@
+FILECMD = @FILECMD@
 GREP = @GREP@
 HAVE_CXX17 = @HAVE_CXX17@
 INSTALL = @INSTALL@
@@ -940,7 +941,7 @@ clang-format:
 	CLANGFORMAT=`git config --get clangformat.binary`; \
 	test -z $${CLANGFORMAT} && CLANGFORMAT="clang-format"; \
 	$${CLANGFORMAT} -i lib/*.{c,h} tests/*.{c,h} lib/includes/nghttp3/*.h \
-	examples/*.{cc,h}
+	examples/*.{cc,h} fuzz/*.cc
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.

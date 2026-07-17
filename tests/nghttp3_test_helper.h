@@ -27,7 +27,7 @@
 
 #ifdef HAVE_CONFIG_H
 #  include <config.h>
-#endif /* HAVE_CONFIG_H */
+#endif /* defined(HAVE_CONFIG_H) */
 
 #include "nghttp3_buf.h"
 #include "nghttp3_frame.h"
@@ -35,8 +35,10 @@
 
 #define MAKE_NV(NAME, VALUE)                                                   \
   {                                                                            \
-    (uint8_t *)(NAME), (uint8_t *)(VALUE), sizeof((NAME)) - 1,                 \
-        sizeof((VALUE)) - 1, NGHTTP3_NV_FLAG_NONE                              \
+    .name = (uint8_t *)(NAME),                                                 \
+    .value = (uint8_t *)(VALUE),                                               \
+    .namelen = sizeof((NAME)) - 1,                                             \
+    .valuelen = sizeof((VALUE)) - 1,                                           \
   }
 
 /*
@@ -69,4 +71,4 @@ void nghttp3_write_frame_qpack_dyn(nghttp3_buf *dest, nghttp3_buf *ebuf,
  */
 void nghttp3_write_frame_data(nghttp3_buf *dest, size_t len);
 
-#endif /* NGHTTP3_TEST_HELPER */
+#endif /* !defined(NGHTTP3_TEST_HELPER) */

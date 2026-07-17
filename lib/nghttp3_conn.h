@@ -27,7 +27,7 @@
 
 #ifdef HAVE_CONFIG_H
 #  include <config.h>
-#endif /* HAVE_CONFIG_H */
+#endif /* defined(HAVE_CONFIG_H) */
 
 #include <nghttp3/nghttp3.h>
 
@@ -76,7 +76,7 @@ typedef struct nghttp3_chunk {
   nghttp3_opl_entry oplent;
 } nghttp3_chunk;
 
-nghttp3_objalloc_decl(chunk, nghttp3_chunk, oplent);
+nghttp3_objalloc_decl(chunk, nghttp3_chunk, oplent)
 
 struct nghttp3_conn {
   nghttp3_objalloc out_chunk_objalloc;
@@ -204,4 +204,4 @@ int nghttp3_conn_reject_stream(nghttp3_conn *conn, nghttp3_stream *stream);
  */
 nghttp3_stream *nghttp3_conn_get_next_tx_stream(nghttp3_conn *conn);
 
-#endif /* NGHTTP3_CONN_H */
+#endif /* !defined(NGHTTP3_CONN_H) */
