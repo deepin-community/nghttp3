@@ -26,7 +26,7 @@
  */
 #ifdef HAVE_CONFIG_H
 #  include <config.h>
-#endif /* HAVE_CONFIG_H */
+#endif /* defined(HAVE_CONFIG_H) */
 
 #include "munit.h"
 
@@ -39,14 +39,12 @@
 
 int main(int argc, char **argv) {
   const MunitSuite suites[] = {
-      qpack_suite,
-      conn_suite,
-      tnode_suite,
-      http_suite,
-      {NULL, NULL, NULL, 0, MUNIT_SUITE_OPTION_NONE},
+    qpack_suite, conn_suite, tnode_suite, http_suite, {0},
   };
   const MunitSuite suite = {
-      "", NULL, suites, 1, MUNIT_SUITE_OPTION_NONE,
+    .prefix = "",
+    .suites = suites,
+    .iterations = 1,
   };
 
   return munit_suite_main(&suite, NULL, argc, argv);

@@ -25,12 +25,12 @@
 
 cmake_minimum_required(VERSION 3.20)
 # XXX using 0.1.90 instead of 0.2.0-DEV
-project(nghttp3 VERSION 1.4.0)
+project(nghttp3 VERSION 1.8.0)
 
 # See versioning rule:
 #  https://www.gnu.org/software/libtool/manual/html_node/Updating-version-info.html
 set(LT_CURRENT  11)
-set(LT_REVISION 2)
+set(LT_REVISION 6)
 set(LT_AGE      2)
 
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
@@ -88,13 +88,13 @@ endif()
 # Checks for symbols.
 include(CheckSymbolExists)
 if(HAVE_ENDIAN_H)
-  check_symbol_exists(be64toh "endian.h" HAVE_BE64TOH)
+  check_symbol_exists(be64toh "endian.h" HAVE_DECL_BE64TOH)
 endif()
-if(HAVE_SYS_ENDIAN_H)
-  check_symbol_exists(be64toh "sys/endian.h" HAVE_BE64TOH)
+if(NOT HAVE_DECL_BE64TOH AND HAVE_SYS_ENDIAN_H)
+  check_symbol_exists(be64toh "sys/endian.h" HAVE_DECL_BE64TOH)
 endif()
 
-check_symbol_exists(bswap_64 "byteswap.h" HAVE_BSWAP_64)
+check_symbol_exists(bswap_64 "byteswap.h" HAVE_DECL_BSWAP_64)
 
 if(${CMAKE_C_BYTE_ORDER} STREQUAL "BIG_ENDIAN")
   set(WORDS_BIGENDIAN 1)
@@ -103,6 +103,13 @@ endif()
 set(WARNCFLAGS)
 set(WARNCXXFLAGS)
 if(CMAKE_C_COMPILER_ID MATCHES "MSVC")
+  if(CMAKE_C_COMPILER_ARCHITECTURE_ID MATCHES "x64")
+    set(CMAKE_C_FLAGS "/guard:ehcont ${CMAKE_C_FLAGS}")
+  endif()
+  if(CMAKE_CXX_COMPILER_ARCHITECTURE_ID MATCHES "x64")
+    set(CMAKE_CXX_FLAGS "/guard:ehcont ${CMAKE_CXX_FLAGS}")
+  endif()
+
   if(ENABLE_WERROR)
     set(WARNCFLAGS    /WX)
     set(WARNCXXFLAGS  /WX)
@@ -134,12 +141,7 @@ else()
 endif()
 
 if(ENABLE_STATIC_CRT)
-  foreach(lang C CXX)
-    foreach(suffix "" _DEBUG _MINSIZEREL _RELEASE _RELWITHDEBINFO)
-      set(var "CMAKE_${lang}_FLAGS${suffix}")
-      string(REPLACE "/MD" "/MT" ${var} "${${var}}")
-    endforeach()
-  endforeach()
+  set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 endif()
 
 if(ENABLE_DEBUG)
